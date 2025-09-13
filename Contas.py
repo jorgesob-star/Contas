@@ -8,7 +8,7 @@ import os
 st.set_page_config(page_title="Gestor de Valores", page_icon="💰", layout="centered")
 
 # Título da aplicação
-st.title("💰 Gestor de Valores Persistente")
+st.title("💰 Gestor de Valores com Somas Parciais")
 st.markdown("Os valores são salvos automaticamente e persistem entre sessões.")
 
 # Valores padrão iniciais
@@ -90,9 +90,22 @@ with col2:
     # Mostrar tabela
     st.dataframe(df, height=300, use_container_width=True)
     
-    # Mostrar soma total
+    # Calcular somas
     total = df['Valor'].sum()
-    st.metric(label="💰 **Total**", value=f"{total:,}")
+    
+    # Calcular soma dos 3 primeiros e 3 segundos
+    first_three_sum = df['Valor'].iloc[:3].sum()
+    second_three_sum = df['Valor'].iloc[3:6].sum()
+    
+    # Mostrar métricas
+    st.metric(label="💰 **Total Geral**", value=f"{total:,}")
+    
+    # Layout para as somas parciais
+    col21, col22 = st.columns(2)
+    with col21:
+        st.metric(label="📊 Soma dos 3 primeiros", value=f"{first_three_sum:,}")
+    with col22:
+        st.metric(label="📈 Soma dos 3 segundos", value=f"{second_three_sum:,}")
     
     # Gerar timestamp para nome do arquivo
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
