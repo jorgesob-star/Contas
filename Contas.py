@@ -8,17 +8,17 @@ import os
 st.set_page_config(page_title="Gestor de Valores", page_icon="💰", layout="centered")
 
 # Título da aplicação
-st.title("💰 Gestor de Valores com Somas Parciais")
+st.title("💰 Gestor de Valores com Grupos A e B")
 st.markdown("Os valores são salvos automaticamente e persistem entre sessões.")
 
 # Valores padrão iniciais
 default_values = {
-    "Kraken": 678,
-    "Gate": 1956,
-    "Coinbase": 2463,
-    "N26": 195,
-    "Revolut": 2180,
-    "Caixa": 927
+    "1. Kraken": 678,
+    "2. Gate": 1956,
+    "3. Coinbase": 2463,
+    "4. N26": 195,
+    "5. Revolut": 2180,
+    "6. Caixa": 927
 }
 
 # Nome do arquivo de dados
@@ -93,9 +93,9 @@ with col2:
     # Calcular somas
     total = df['Valor'].sum()
     
-    # Calcular soma dos 3 primeiros e 3 segundos
-    first_three_sum = df['Valor'].iloc[:3].sum()
-    second_three_sum = df['Valor'].iloc[3:6].sum()
+    # Calcular soma do grupo A (1-3) e grupo B (4-6)
+    group_a_sum = df['Valor'].iloc[:3].sum()
+    group_b_sum = df['Valor'].iloc[3:6].sum()
     
     # Mostrar métricas
     st.metric(label="💰 **Total Geral**", value=f"{total:,}")
@@ -103,9 +103,9 @@ with col2:
     # Layout para as somas parciais
     col21, col22 = st.columns(2)
     with col21:
-        st.metric(label="📊 Soma dos 3 primeiros", value=f"{first_three_sum:,}")
+        st.metric(label="🅰️ Soma do Grupo A (1-3)", value=f"{group_a_sum:,}")
     with col22:
-        st.metric(label="📈 Soma dos 3 segundos", value=f"{second_three_sum:,}")
+        st.metric(label="🅱️ Soma do Grupo B (4-6)", value=f"{group_b_sum:,}")
     
     # Gerar timestamp para nome do arquivo
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
